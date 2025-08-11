@@ -1,10 +1,37 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import Meet from './Meet';
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { addUser } from '../utills/userSlice';
+
+
+
 
 function Login() {
     const [emailId, setEmailId] = useState("");
        const [password, setPassword] = useState("");
+       const [error,setError] = useState("")
+       
+         const dispatch = useDispatch();
+         const navigate = useNavigate();
+
+           const handlLogin = async()=>{
+                try{
+                   const res= await axios.post( "http://localhost:7777/login",{
+                    emailId,password
+                   }, {withCredentials:true})
+                  dispatch(addUser(res.data));
+                  return navigate("/meet");
+
+                }catch(err){
+                 setError(err?.response?.data || " something went wrong")
+                }
+
+           
+        }
+           
      
   return (
    <div className="flex flex-col items-center justify-center my-15 bg-base-100 gap-4">
@@ -62,7 +89,7 @@ function Login() {
 
     <p className="text-red-500 flex justify-center"></p>
     <div className="card-actions justify-center my-5">
-      <button className="btn btn-primary " >Login</button>
+      <button onClick={handlLogin} className="btn btn-primary " >Login</button>
     </div>
   </div>
 <div className="card card-bordered bg-base-300 w-96 shadow-md">
@@ -70,7 +97,7 @@ function Login() {
     <p>
       Don’t have an account?
       <Link to="/Register" className="link link-primary ml-1">
-        Sign up
+         Register
       </Link>
     </p>
   </div>

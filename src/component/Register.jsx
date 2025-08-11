@@ -1,10 +1,32 @@
+import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utills/userSlice';
 
 function Register() {
        const [name, setName] = useState("");
      const [emailId, setEmailId] = useState("");
        const [password, setPassword] = useState("");
+        const [error,setError] = useState("")
+          const dispatch = useDispatch();
+              
+              
+            const handlRegister = async()=>{
+              try{
+                 const res=  axios.post("http://localhost:7777/register",{
+                    name,emailId,password
+                 }, {withCredentials:true});
+                   dispatch(addUser(res.data));
+
+
+
+              } catch(err){
+              setError(err?.response?.data || " something went wrong")
+              }
+             
+            }
+            
   return (
     <div>
        
@@ -90,7 +112,7 @@ function Register() {
 
     <p className="text-red-500 flex justify-center"></p>
     <div className="card-actions justify-center my-5">
-      <button className="btn btn-primary ">Register</button>
+      <button onClick={handlRegister} className="btn btn-primary ">Register</button>
     </div>
   </div>
 

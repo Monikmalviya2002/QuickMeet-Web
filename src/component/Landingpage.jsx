@@ -27,9 +27,9 @@ function Landingpage() {
             Loved Ones
           </h1>
           <p className="text-xl">Cover a distance by Quick Meet</p>
-          <button className="bg-[#FF9839] text-white px-6 py-3 rounded-lg hover:bg-[#e57f24] transition-colors duration-200">
+          <Link to="/login" className="bg-[#FF9839] text-white px-6 py-3 rounded-lg hover:bg-[#e57f24] transition-colors duration-200">
             Get Started
-          </button>
+          </Link>
         </div>
 
       
